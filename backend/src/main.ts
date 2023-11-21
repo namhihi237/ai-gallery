@@ -8,7 +8,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   console.log(`MongoDB URI: ${configService.get('MONGODB_URI')}`);
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 
   console.log(`Listening on port ${await app.getUrl()}`);
   console.log(`MongoDB URI: ${configService.get('MONGODB_URI')}`);
