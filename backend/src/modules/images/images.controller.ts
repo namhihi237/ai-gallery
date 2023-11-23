@@ -17,4 +17,11 @@ export class ImagesController {
   async create(@Body() imageCreateDto: ImageCreateDto) {
     return this.imageService.create(imageCreateDto);
   }
+
+  @Get('presigned')
+  @HttpCode(200)
+  async getPreSignURL(): Promise<{ url: string }> {
+    const url = await this.imageService.generatePreSignUrl();
+    return { url };
+  }
 }
