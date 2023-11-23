@@ -3,6 +3,8 @@ import { ImagesController } from './images.controller';
 import { ImagesService } from './images.service';
 import { getModelToken } from '@nestjs/mongoose';
 import { Image } from './images.schema';
+import { Types } from 'mongoose';
+import { ImageCreateDto } from './image.dto';
 
 describe('ImagesController', () => {
   let controller: ImagesController;
@@ -44,6 +46,26 @@ describe('ImagesController', () => {
       expect(result).toEqual(mockImages);
       // Ensure that the imagesService.findAll method was called
       expect(imagesService.findAll).toHaveBeenCalled();
+    });
+  });
+
+  describe('create', () => {
+    it('should return new image', async () => {
+      const createDto: ImageCreateDto = {
+        url: 'image1.jpg',
+        tags: ['tag1', 'tag2'],
+      };
+
+      const mockImage = {
+        _id: new Types.ObjectId(),
+        ...createDto,
+      };
+
+      jest.spyOn(imagesService, 'create').mockResolvedValue(mockImage);
+      const result = await controller.create(createDto);
+
+      expect(result).toEqual(mockImage);
+      expect(imagesService.create).toHaveBeenCalled();
     });
   });
 });

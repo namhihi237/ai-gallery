@@ -61,6 +61,7 @@ describe('ImagesService', () => {
       const result = await service.create(createDto);
 
       expect(result).toEqual(mockImage);
+      expect(imageModel.create).toHaveBeenCalledWith(createDto);
     });
   });
 });
