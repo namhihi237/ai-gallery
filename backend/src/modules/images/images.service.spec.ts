@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ImagesService } from './images.service';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { getModelToken } from '@nestjs/mongoose';
 import { Image } from './images.schema';
+import { ImageCreateDto } from './image.dto';
 describe('ImagesService', () => {
   let service: ImagesService;
   let imageModel: Model<Image>;
@@ -15,6 +16,7 @@ describe('ImagesService', () => {
           provide: getModelToken(Image.name),
           useValue: {
             find: jest.fn(),
+            create: jest.fn(),
           },
         },
       ],
@@ -41,6 +43,24 @@ describe('ImagesService', () => {
 
       expect(result).toEqual(mockImages);
       expect(imageModel.find).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('create', () => {
+    it('should return an new image', async () => {
+      const createDto: ImageCreateDto = {
+        url: 'image1.jpg',
+        tags: ['tag1', 'tag2'],
+      };
+      const mockImage = {
+        _id: new Types.ObjectId(),
+        ...createDto,
+      };
+
+      jest.spyOn(imageModel, 'create').mockResolvedValue(mockImage as any);
+      const result = await service.create(createDto);
+
+      expect(result).toEqual(mockImage);
     });
   });
 });
