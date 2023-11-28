@@ -19,5 +19,5 @@ export default function Icon(props: IconProp) {
   const { iconName, size = "small"} = props;
   const sizeStyle = sizes[size as keyof typeof sizes] || sizes['small'];
 	const Icon = iconName ? iconComponents[iconName] : iconComponents['HomeIcon'];
-	return Icon && <Icon className={`block ${sizes[size as keyof typeof sizes]}`} aria-hidden="true" />;
+	return Icon && <Icon className={`block ${sizeStyle}`} aria-hidden="true" />;
 }
