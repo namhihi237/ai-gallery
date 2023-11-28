@@ -1,3 +1,5 @@
 export const ROUTE = {
-  DASH_BOARD:'/dashboard'
-}
+	HOME: '/home',
+	GALLERY: '/gallery',
+	UPLOAD: '/upload',
+};
