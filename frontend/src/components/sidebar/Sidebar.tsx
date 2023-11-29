@@ -1,39 +1,21 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { ROUTE } from '../../configs/route';
+import { Dispatch, SetStateAction } from 'react';
 import SidebarItem, { SidebarItemProp } from './SidebarItem';
-const sidebarsElement: SidebarItemProp[] = [
-	{
-		title: 'Home',
-		iconName: 'FaHome',
-		href: ROUTE.HOME,
-	},
-	{
-		title: 'Gallery',
-		iconName: 'GrGallery',
-		href: ROUTE.GALLERY,
-	},
-	{
-		title: 'Upload',
-		iconName: 'FaCloudUploadAlt',
-		href: ROUTE.UPLOAD,
-	},
-];
 
-export default function Sidebar(): JSX.Element {
-	const [selectedIndex, setSelectedIndex] = useState(0);
+type SidebarProps = {
+	selectedIndex: number;
+	sidebarsElement: SidebarItemProp[];
+};
 
+export default function Sidebar(props: SidebarProps): JSX.Element {
 	function renderMenuItem(): JSX.Element[] {
-		return sidebarsElement.map((element, index) => (
+		return props.sidebarsElement.map((element, index) => (
 			<SidebarItem
 				key={index}
 				title={element.title}
 				iconName={element.iconName}
 				href={element.href}
-				isSelected={index === selectedIndex}
-				setActive={() => {
-					setSelectedIndex(index);
-				}}
+				isSelected={index === props.selectedIndex}
 			/>
 		));
 	}
