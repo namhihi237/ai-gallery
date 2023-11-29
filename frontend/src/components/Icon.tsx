@@ -1,33 +1,21 @@
-import React from 'react';
-import * as HeroIcons24 from '@heroicons/react/24/outline';
+import loadable from '@loadable/component';
+import { IconBaseProps, IconType } from 'react-icons/lib';
 
-export type IconProp = {
-	readonly iconName?: string;
-	readonly size?: string;
-};
-
-const sizes = {
-  small : "h-6 w-6",
-  large : "h-8 w-8",
+interface typesPropsIcon {
+	iconName: string;
+	propsIcon?: IconBaseProps;
 }
 
-const generateIconComponents = <T extends Record<string, React.ElementType>>(icons: T) => {
-	const iconComponents: { [key in keyof T]: React.ElementType } = {} as any;
+// refer: https://github.com/react-icons/react-icons/issues/594#issuecomment-1236237124
+export function Icon({ iconName, propsIcon = { size: 24 } }: typesPropsIcon): JSX.Element {
+	const lib = iconName
+		.replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+		.split(' ')[0]
+		.toLocaleLowerCase();
 
-	Object.keys(icons).forEach((key) => {
-		iconComponents[key as keyof T] = icons[key as keyof T];
-	});
+	const ElementIcon: IconType = loadable(() => import(`react-icons/${lib}/index.js`), {
+		resolveComponent: (el: JSX.Element) => el[iconName as keyof JSX.Element],
+	}) as IconType;
 
-	return iconComponents;
-};
-
-const iconComponents = generateIconComponents(HeroIcons24);
-
-
-export default function Icon(props: IconProp): JSX.Element {
-  const { iconName, size = "small"} = props;
-  const sizeStyle = sizes[size as keyof typeof sizes] || sizes['small'];
-	const Icon = iconName ? iconComponents[iconName as keyof typeof iconComponents] : iconComponents['HomeIcon'];
-
-	return Icon && <Icon className={`block ${sizeStyle}`} aria-hidden="true" />;
+	return <ElementIcon {...propsIcon} />;
 }

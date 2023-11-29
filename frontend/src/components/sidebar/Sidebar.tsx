@@ -5,17 +5,17 @@ import SidebarItem, { SidebarItemProp } from './SidebarItem';
 const sidebarsElement: SidebarItemProp[] = [
 	{
 		title: 'Home',
-		iconName: 'HomeIcon',
+		iconName: 'FaHome',
 		href: ROUTE.HOME,
 	},
 	{
 		title: 'Gallery',
-		iconName: 'PhotoIcon',
+		iconName: 'GrGallery',
 		href: ROUTE.GALLERY,
 	},
 	{
 		title: 'Upload',
-		iconName: 'CloudArrowUpIcon',
+		iconName: 'FaCloudUploadAlt',
 		href: ROUTE.UPLOAD,
 	},
 ];
