@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { ImagesService } from './images.service';
 import { ImageCreateDto } from './image.dto';
 
-@Controller('images')
+@Controller('api/images')
 export class ImagesController {
   constructor(private imageService: ImagesService) {}
 

@@ -3,11 +3,12 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { LoggerInterceptor } from './common/interceptors/logger.interceptor';
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalInterceptors(new LoggerInterceptor());
+
+  app.enableCors();
 
   const configService = app.get(ConfigService);
   await app.listen(process.env.PORT || 3000);
