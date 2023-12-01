@@ -1,14 +1,29 @@
 'use client';
-import { KeyboardEvent, useCallback, useState } from 'react';
+import { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { Icon } from '../../components/Icon';
 import { useDropzone } from 'react-dropzone';
 import { TextInput } from '../../components/TextInput';
+import { useMutation } from '@tanstack/react-query';
+import { ROUTE } from '../../configs/route';
+import { useRouter } from 'next/navigation';
+import { ImageCreation, uploadImage } from '../../services/image';
+
 const MAXIMUM_TAGS = 10;
+
 export default function Page() {
   const [fileSelected, setFileSelected] = useState<File | undefined>();
   const [title, setTitle] = useState<string>('');
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>('');
+
+  const router = useRouter();
+
+  const mutationUploadFile = useMutation<void, Error, ImageCreation>({
+    mutationFn: uploadImage,
+    onSuccess: () => {
+      router.push(ROUTE.HOME);
+    },
+  });
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -34,14 +49,37 @@ export default function Page() {
     }
   };
 
+  const handleSubmit = async () => {
+    if (!title || !fileSelected) {
+      alert('Please fill all information!!!');
+      return;
+    }
+    mutationUploadFile.mutate({ file: fileSelected, title, tags });
+  };
+
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Fix click 2 times to open modal
+  useEffect(() => {
+    if (buttonRef.current) {
+      buttonRef.current.focus();
+    }
+  }, []);
+
   return (
     <div className="h-full px-16 py-8">
       {!fileSelected ? (
-        <div {...getRootProps()} className="border-dashed border-zinc-600 border-2 h-1/2 p-8">
-          <div className="h-full flex justify-center items-center flex-col">
-            <input {...getInputProps()} />
+        <div className="border-dashed border-zinc-600 border-2 h-1/2 p-8">
+          <div {...getRootProps()} className="h-full flex justify-center items-center flex-col">
             <p className="text-xl">Drag and drop to upload</p>
-            <button onClick={open}>
+            <input {...getInputProps()} />
+            <button
+              ref={buttonRef}
+              onClick={() => {
+                console.log('click');
+                open();
+              }}
+            >
               <Icon iconName="MdCloudUpload" propsIcon={{ size: 150 }} />
             </button>
           </div>
@@ -90,8 +128,11 @@ export default function Page() {
                   </div>
                 </div>
               </div>
-              <button className="px-8 py-2 mt-4 rounded-md bg-cyan-800 hover:bg-cyan-700">
-                Upload
+              <button
+                onClick={handleSubmit}
+                className="px-8 py-2 mt-4 rounded-md bg-cyan-800 hover:bg-cyan-700"
+              >
+                {mutationUploadFile.isPending ? 'Uploading' : 'Upload'}
               </button>
             </div>
           </div>
