@@ -73,13 +73,7 @@ export default function Page() {
           <div {...getRootProps()} className="h-full flex justify-center items-center flex-col">
             <p className="text-xl">Drag and drop to upload</p>
             <input {...getInputProps()} />
-            <button
-              ref={buttonRef}
-              onClick={() => {
-                console.log('click');
-                open();
-              }}
-            >
+            <button ref={buttonRef} onClick={open}>
               <Icon iconName="MdCloudUpload" propsIcon={{ size: 150 }} />
             </button>
           </div>
