@@ -17,9 +17,9 @@ export class CloudinaryService {
   }
 
   generatePresignedUrl() {
-    const { cloudName, apiKey } = this.configService.get('cloudinary');
+    const { cloudName, apiSecret, apiKey } = this.configService.get('cloudinary');
     const timestamp = Math.round(new Date().getTime() / 1000);
-    const signature = cloudinary.utils.api_sign_request({ timestamp }, apiKey);
+    const signature = cloudinary.utils.api_sign_request({ timestamp }, apiSecret);
     return `https://api.cloudinary.com/v1_1/${cloudName}/image/upload?api_key=${apiKey}&signature=${signature}&timestamp=${timestamp}`;
   }
 
