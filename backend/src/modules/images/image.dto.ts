@@ -2,7 +2,7 @@ import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class ImageCreateDto {
   @IsNotEmpty()
-  url: string;
+  title: string;
 
   @IsOptional()
   tags: string[];

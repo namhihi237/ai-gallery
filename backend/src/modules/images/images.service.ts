@@ -17,11 +17,14 @@ export class ImagesService {
     return this.imageModel.find();
   }
 
-  async create(imageCreateDto: ImageCreateDto): Promise<Image> {
-    return this.imageModel.create(imageCreateDto);
+  async create(imageCreateDto: ImageCreateDto, file: Express.Multer.File): Promise<Image> {
+    const url = await this.cloudinaryService.uploadFile(file);
+    console.log(url);
+
+    return this.imageModel.create({ ...imageCreateDto, url });
   }
 
-  async generatePreSignUrl(): Promise<string> {
+  async generatePreSignUrl() {
     return this.cloudinaryService.generatePresignedUrl();
   }
 }

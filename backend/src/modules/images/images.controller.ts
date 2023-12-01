@@ -1,6 +1,25 @@
-import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ImagesService } from './images.service';
 import { ImageCreateDto } from './image.dto';
+import { diskStorage } from 'multer';
+import { v4 as uuidv4 } from 'uuid';
+import { FileInterceptor } from '@nestjs/platform-express/multer';
+
+const storage = diskStorage({
+  destination: './uploads',
+  filename: (req, file, cb) => {
+    const uniqueSuffix = uuidv4();
+    cb(null, `${uniqueSuffix}-${file.originalname}`);
+  },
+});
 
 @Controller('api/images')
 export class ImagesController {
@@ -14,14 +33,16 @@ export class ImagesController {
 
   @Post()
   @HttpCode(201)
-  async create(@Body() imageCreateDto: ImageCreateDto) {
-    return this.imageService.create(imageCreateDto);
+  @UseInterceptors(FileInterceptor('file', { storage: storage }))
+  async create(@UploadedFile() file: Express.Multer.File, @Body() imageCreateDto: ImageCreateDto) {
+    console.log(imageCreateDto);
+
+    return this.imageService.create(imageCreateDto, file);
   }
 
   @Get('presigned')
   @HttpCode(200)
-  async getPreSignURL(): Promise<{ url: string }> {
-    const url = await this.imageService.generatePreSignUrl();
-    return { url };
+  async getPreSignURL() {
+    return this.imageService.generatePreSignUrl();
   }
 }

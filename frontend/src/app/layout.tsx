@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { SidebarItemProp } from '../components/sidebar/SidebarItem';
 import { ROUTE } from '../configs/route';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+const queryClient = new QueryClient();
 
 const inter = Inter({ subsets: ['latin'] });
 const sidebarsElement: SidebarItemProp[] = [
@@ -40,14 +42,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   }, [pathname]);
 
   return (
-    <html lang="en" className="h-full">
-      <body className={`${inter.className} h-full flex flex-col overflow-hidden`}>
-        <Navbar />
-        <div className="flex flex-1 overflow-hidden">
-          <Sidebar selectedIndex={indexSelected} sidebarsElement={sidebarsElement} />
-          <main className="flex-grow p-4 overflow-y-auto">{children}</main>
-        </div>
-      </body>
-    </html>
+    <QueryClientProvider client={queryClient}>
+      <html lang="en" className="h-full">
+        <body className={`${inter.className} h-full flex flex-col overflow-hidden`}>
+          <Navbar />
+          <div className="flex flex-1 overflow-hidden">
+            <Sidebar selectedIndex={indexSelected} sidebarsElement={sidebarsElement} />
+            <main className="flex-grow p-4 overflow-y-auto">{children}</main>
+          </div>
+        </body>
+      </html>
+    </QueryClientProvider>
   );
 }

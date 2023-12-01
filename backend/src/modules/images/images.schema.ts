@@ -6,6 +6,9 @@ export type CatDocument = HydratedDocument<Image>;
 @Schema({ timestamps: { createdAt: 'created_at', updatedAt: 'updated_At' } })
 export class Image {
   @Prop()
+  title: string;
+
+  @Prop()
   url: string;
 
   @Prop([String])
