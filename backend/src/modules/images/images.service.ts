@@ -25,7 +25,7 @@ export class ImagesService {
     }
 
     const images = await this.imageModel
-      .find(where, { __v: 0, updated_At: 0 })
+      .find(where, { __v: 0, updatedAt: 0 })
       .sort(sort)
       .skip((page - 1) * limit)
       .limit(limit);
