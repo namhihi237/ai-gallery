@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 export type CatDocument = HydratedDocument<Image>;
 
-@Schema({ timestamps: { createdAt: 'created_at', updatedAt: 'updated_At' } })
+@Schema({ timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } })
 export class Image {
   @Prop()
   title: string;

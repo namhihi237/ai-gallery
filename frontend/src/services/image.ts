@@ -21,3 +21,7 @@ export const uploadImage = async ({ file, title, tags }: ImageCreation) => {
   });
   return;
 };
+
+export const getImages = async () => {
+  return axios.get(`${process.env.NEXT_PUBLIC_API_URL}/images`, {});
+};
