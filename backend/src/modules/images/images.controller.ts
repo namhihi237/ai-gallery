@@ -4,11 +4,12 @@ import {
   Get,
   HttpCode,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { ImagesService } from './images.service';
-import { ImageCreateDto } from './image.dto';
+import { ImageCreateDto, PagingDto } from './image.dto';
 import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import { FileInterceptor } from '@nestjs/platform-express/multer';
@@ -27,8 +28,8 @@ export class ImagesController {
 
   @Get()
   @HttpCode(200)
-  async getImages() {
-    return this.imageService.findAll();
+  async getImages(@Query() paging: PagingDto) {
+    return this.imageService.findAll(paging);
   }
 
   @Post()
