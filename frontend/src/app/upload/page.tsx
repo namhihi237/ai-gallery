@@ -125,6 +125,7 @@ export default function Page() {
               <button
                 onClick={handleSubmit}
                 className="px-8 py-2 mt-4 rounded-md bg-cyan-800 hover:bg-cyan-700"
+                disabled={mutationUploadFile.isPending}
               >
                 {mutationUploadFile.isPending ? 'Uploading' : 'Upload'}
               </button>
