@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { ImageItem, ImageItemBase } from './ImageItemBase';
 
 export type CategorySectionProps = {
@@ -5,17 +6,20 @@ export type CategorySectionProps = {
   images: ImageItem[];
   maxItem?: number;
   containerStyle?: string;
+  linkTo?: string;
 };
 
 export function CategorySection(props: CategorySectionProps) {
-  const imageElements = props.maxItem ? props.images.slice(0, props.maxItem) : props.images;
+  const { maxItem, linkTo = '' } = props;
+  const imageElements = maxItem ? props.images.slice(0, maxItem) : props.images;
+
   return (
     <div className={props.containerStyle}>
       <div className="flex justify-between mb-4">
         <p className="text-xl">{props.title}</p>
-        <a className="text-xl" href="">
+        <Link className="text-xl" href={linkTo}>
           See all
-        </a>
+        </Link>
       </div>
       <div className="flex flex-wrap">
         {imageElements.map((image, index) => (

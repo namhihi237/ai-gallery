@@ -44,7 +44,7 @@ export default function Page() {
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && tagInput.trim() !== '') {
-      setTags([...tags, tagInput.trim()]);
+      setTags([...tags, tagInput.trim().toLocaleLowerCase()]);
       setTagInput('');
     }
   };

@@ -1,5 +1,6 @@
 export const ROUTE = {
-	HOME: '/home',
-	GALLERY: '/gallery',
-	UPLOAD: '/upload',
+  HOME: '/home',
+  HOME_ALL: '/home/images',
+  GALLERY: '/gallery',
+  UPLOAD: '/upload',
 };

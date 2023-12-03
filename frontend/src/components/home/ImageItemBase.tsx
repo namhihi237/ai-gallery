@@ -18,8 +18,8 @@ export function ImageItemBase(props: ImageItem) {
         src={props.url}
         alt="img"
         className={classNames(
-          'w-auto h-auto transition-transform transform-gpu hover:scale-105',
-          type === MediaType.image ? 'max-h-[200px]' : 'max-h-[300px]',
+          'transition-transform transform-gpu hover:scale-105',
+          type === MediaType.image ? 'max-h-[300px]' : 'max-h-[400px]',
         )}
       />
     </button>
