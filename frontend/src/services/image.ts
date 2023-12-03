@@ -22,6 +22,6 @@ export const uploadImage = async ({ file, title, tags }: ImageCreation) => {
   return;
 };
 
-export const getImages = async () => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_URL}/images`, {});
+export const getImages = async (page: number = 1, limit: number = 10) => {
+  return axios.get(`${process.env.NEXT_PUBLIC_API_URL}/images?limit=${limit}&page=${page}`, {});
 };
