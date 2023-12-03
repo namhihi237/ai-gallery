@@ -10,7 +10,7 @@ export default function Page() {
 
   const { data } = useQuery({
     queryKey: ['getImages'],
-    queryFn: getImages,
+    queryFn: () => getImages(),
   });
 
   useEffect(() => {
