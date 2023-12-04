@@ -81,10 +81,10 @@ export default function Page() {
       ) : (
         <div>
           <div className="flex justify-between">
-            <div className="h-1/2 max-w-sm flex flex-col">
+            <div className="max-w-[500px] flex flex-col h-auto">
               <img
                 src={URL.createObjectURL(fileSelected)}
-                className="object-contain w-full h-full max-w-full max-h-[400px]"
+                className="object-contain w-full h-full max-w-full max-h-[500px]"
               />
               <button onClick={open} className="mt-1 hover:text-yellow-500 flex justify-center">
                 <Icon iconName="FiEdit" />

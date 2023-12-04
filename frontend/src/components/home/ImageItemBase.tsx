@@ -14,7 +14,7 @@ enum MediaType {
 export function ImageItemBase(props: ImageItem) {
   const { type = MediaType.image } = props;
   return (
-    <button className="mr-4 flex-1">
+    <button className="mr-4">
       <img
         src={props.url}
         alt="img"

@@ -33,7 +33,7 @@ export default function Page() {
     <div>
       <div className="flex flex-wrap pt-2">
         {images.map((image, index) => (
-          <div className="w-1/4 pb-2" key={index}>
+          <div className="pb-2" key={index}>
             <ImageItemBase url={image.url} />
           </div>
         ))}
