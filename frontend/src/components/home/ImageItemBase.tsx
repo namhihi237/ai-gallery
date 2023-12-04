@@ -2,6 +2,7 @@ import classNames from 'classnames';
 
 export type ImageItem = {
   url: string;
+  _id?: string;
   type?: MediaType;
 };
 

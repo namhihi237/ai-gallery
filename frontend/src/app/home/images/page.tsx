@@ -5,7 +5,7 @@ import { getImages } from '../../../services/image';
 import { ImageItem, ImageItemBase } from '../../../components/home/ImageItemBase';
 const LIMIT = 10;
 export default function Page() {
-  const [images, setImage] = useState<ImageItem[]>([]);
+  const [images, setImages] = useState<ImageItem[]>([]);
   const [page, setPage] = useState(1);
 
   const { data, isFetching, isLoading } = useQuery({
@@ -14,9 +14,14 @@ export default function Page() {
   });
 
   useEffect(() => {
-    const maxImages = page * LIMIT;
-    if (data && maxImages > images.length) {
-      setImage([...images, ...data.data?.data?.images]);
+    const isNew = !images.length || (images[0]._id !== data?.data?.data?.images._id && page === 1);
+    if (data) {
+      if (isNew) {
+        setImages(data?.data?.data?.images);
+        return;
+      }
+
+      setImages([...images, ...data?.data?.data?.images]);
     }
   }, [data]);
 
