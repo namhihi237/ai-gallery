@@ -4,7 +4,7 @@ import { ImagesController } from './images.controller';
 import { ImageSchema, Image } from './images.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SharedModule } from '../../shared/shared.module';
-import { CloudinaryService } from '../../shared/services/cloudinary/cloudinary.service';
+import { CloudinaryService } from '../../shared/services/cloudinary.service';
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: Image.name, schema: ImageSchema }]), SharedModule],
