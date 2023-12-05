@@ -7,6 +7,7 @@ import { useUser } from '../../contexts/UserContext';
 
 export default function Navbar() {
   const { currentUser } = useUser();
+  console.log(currentUser);
 
   const [isShowModal, setIsShowModal] = useState(false);
   return (
@@ -15,7 +16,7 @@ export default function Navbar() {
         <Logo />
         <SearchBox />
         {currentUser ? (
-          <Avatar url="https://res.cloudinary.com/poppy-gallary/image/upload/v1700620691/_1fc72ba8-5e74-4835-b002-898874ab3a1f_ajvvif.jpg" />
+          <Avatar url={currentUser.image} />
         ) : (
           <button onClick={() => setIsShowModal(true)} className="hover:text-yellow-500">
             Login

@@ -1,6 +1,7 @@
 // contexts/UserContext.tsx
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { getToken } from '../app/utils/cookie';
+import { localStorageUtils } from '../utils/localStorage';
+import { getToken } from '../utils/cookie';
 
 interface UserContextProps {
   currentUser: any | null;
@@ -17,10 +18,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<any | null>(null);
 
   const checkLogin = () => {
+    const user = localStorageUtils.getItem('user');
     const token = getToken();
 
-    if (token) {
-      setCurrentUser({ id: 1 });
+    if (user && token) {
+      setCurrentUser(user);
     } else {
       setCurrentUser(null);
     }
