@@ -3,7 +3,7 @@ import { Image } from './images.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ImageCreateDto, OrderBy, PagingDto } from './image.dto';
-import { CloudinaryService } from '../../shared/services/cloudinary/cloudinary.service';
+import { CloudinaryService } from '../../shared/services/cloudinary.service';
 
 @Injectable()
 export class ImagesService {
