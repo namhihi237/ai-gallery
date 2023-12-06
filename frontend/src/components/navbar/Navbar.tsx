@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Avatar from './Avatar';
 import SearchBox from '../search/SearchBox';
 import Logo from './Logo';
 import { LoginModal } from '../auth/LoginModal';
 import { useUser } from '../../contexts/UserContext';
-import MenuDropdown from './MenuDropdown';
 
 export default function Navbar() {
   const { currentUser } = useUser();

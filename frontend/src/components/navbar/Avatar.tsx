@@ -12,10 +12,7 @@ export default function Avatar({ url }: AvatarProps) {
   return (
     <div className="relative inline-block">
       <button
-        onClick={(e) => {
-          console.log(isShowMenu);
-          console.log('Click event:', e);
-
+        onClick={() => {
           setIsShowMenu((prevIsShowMenu) => !prevIsShowMenu);
         }}
       >
