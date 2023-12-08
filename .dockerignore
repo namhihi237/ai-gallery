@@ -1,0 +1,15 @@
+# Ignore node_modules for both backend and frontend
+node_modules
+
+# Ignore build artifacts and configuration files
+/dist
+/.next
+.env
+
+# Ignore development and editor-related files
+*.log
+*.swp
+.vscode/
+.idea/
+
+/coverage
