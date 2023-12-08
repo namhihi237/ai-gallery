@@ -24,4 +24,8 @@ export class UserService {
       { new: true },
     );
   }
+
+  async findById(id: string) {
+    return this.userModel.findById(id);
+  }
 }

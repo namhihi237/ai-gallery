@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ExecutionContext,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { LoginGoogleDto } from './auth.dto';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
@@ -23,5 +28,47 @@ export class AuthService {
       user,
       accessToken,
     };
+  }
+
+  async validate(context: ExecutionContext): Promise<boolean> {
+    const req = context.switchToHttp().getRequest();
+    const user = await this.validateToken(req);
+
+    if (!user) {
+      return false;
+    }
+    req.user = user;
+    return true;
+  }
+
+  private async validateToken(req: Request) {
+    const authorization = req.headers['authorization'] || req.headers['Authorization'];
+
+    let userId = '';
+    let token = '';
+    if (authorization && authorization.startsWith('Bearer')) {
+      const split = authorization.split('Bearer ');
+      if (split.length !== 2) {
+        throw new UnauthorizedException();
+      }
+      token = split[1];
+    }
+
+    try {
+      const checkJwt = await this.jwtService.verify(token, { secret: process.env.JWT_SECRET });
+      userId = checkJwt._id ? checkJwt._id : null;
+      console.log(userId);
+    } catch (error) {
+      throw new UnauthorizedException(error);
+    }
+
+    if (userId) {
+      const user = await this.userService.findById(userId);
+      if (!user) {
+        throw new NotFoundException('User does not exist');
+      }
+      return user;
+    }
+    return null;
   }
 }
