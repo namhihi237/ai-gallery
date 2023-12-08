@@ -38,11 +38,13 @@ export class ImagesService {
     };
   }
 
-  async create(imageCreateDto: ImageCreateDto, file: Express.Multer.File): Promise<Image> {
+  async create(
+    imageCreateDto: ImageCreateDto,
+    file: Express.Multer.File,
+    userID: string,
+  ): Promise<Image> {
     const url = await this.cloudinaryService.uploadFile(file);
-    console.log(url);
-
-    return this.imageModel.create({ ...imageCreateDto, url });
+    return this.imageModel.create({ ...imageCreateDto, url, userID });
   }
 
   async generatePreSignUrl() {

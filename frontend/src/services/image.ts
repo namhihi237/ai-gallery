@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getToken } from '../utils/cookie';
 
 export interface ImageCreation {
   file: File;
@@ -14,9 +15,11 @@ export const uploadImage = async ({ file, title, tags }: ImageCreation) => {
     formData.append('tags[]', tag);
   });
 
+  const token = getToken()
   await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/images`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
+      'Authorization': `Bearer ${token}`
     },
   });
   return;
