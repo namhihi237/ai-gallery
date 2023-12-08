@@ -6,28 +6,31 @@ import Sidebar from '../components/sidebar/Sidebar';
 import Navbar from '../components/navbar/Navbar';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { SidebarItemProp } from '../components/sidebar/SidebarItem';
+import { MenuItem } from '../components/sidebar/SidebarItem';
 import { ROUTE } from '../configs/route';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { UserProvider } from '../contexts/UserContext';
 const queryClient = new QueryClient();
 
 const inter = Inter({ subsets: ['latin'] });
-const sidebarsElement: SidebarItemProp[] = [
+const sidebarsElement: MenuItem[] = [
   {
     title: 'Home',
     iconName: 'FaHome',
     href: ROUTE.HOME,
+    isRequiredLogin: false
   },
   {
     title: 'Gallery',
     iconName: 'GrGallery',
     href: ROUTE.GALLERY,
+    isRequiredLogin: true
   },
   {
     title: 'Upload',
     iconName: 'FaCloudUploadAlt',
     href: ROUTE.UPLOAD,
+    isRequiredLogin: true
   },
 ];
 

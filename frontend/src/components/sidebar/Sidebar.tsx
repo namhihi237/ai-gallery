@@ -1,20 +1,19 @@
 'use client';
-import SidebarItem, { SidebarItemProp } from './SidebarItem';
+import SidebarItem, { MenuItem } from './SidebarItem';
 
 type SidebarProps = {
   selectedIndex: number;
-  sidebarsElement: SidebarItemProp[];
+  sidebarsElement: MenuItem[];
 };
 
 export default function Sidebar(props: SidebarProps): JSX.Element {
+  const items = props.sidebarsElement.map((element, index) => {
+      return {...element, isSelected: index === props.selectedIndex }
+  })
   function renderMenuItem(): JSX.Element[] {
-    return props.sidebarsElement.map((element, index) => (
+    return items.map((element, index) => (
       <SidebarItem
-        key={index}
-        title={element.title}
-        iconName={element.iconName}
-        href={element.href}
-        isSelected={index === props.selectedIndex}
+        item={element}
       />
     ));
   }
