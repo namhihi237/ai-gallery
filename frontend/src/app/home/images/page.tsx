@@ -8,7 +8,7 @@ export default function Page() {
   const [images, setImages] = useState<ImageItem[]>([]);
   const [page, setPage] = useState(1);
 
-  const { data, isFetching, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['getImages', page],
     queryFn: () => getImages(page, LIMIT),
   });
@@ -29,6 +29,39 @@ export default function Page() {
     return data?.data?.data?.total > images.length;
   };
 
+  const loadMore = () => {
+    if (isShowLoadMore()) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+    // Intersection Observer setup for infinite scroll
+    useEffect(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const target = entries[0];
+          if (target.isIntersecting) {
+            loadMore();
+          }
+        },
+        { threshold: 0.85 } // Trigger when x/full of the element is in the viewport
+      );
+
+      const sentinel = document.getElementById('infinite-scroll-sentinel');
+
+      if (sentinel) {
+        observer.observe(sentinel);
+      }
+
+      return () => {
+        if (sentinel) {
+          observer.unobserve(sentinel);
+        }
+      };
+    }, [loadMore]);
+
+
+
   return (
     <div>
       <div className="flex flex-wrap pt-2">
@@ -38,11 +71,9 @@ export default function Page() {
           </div>
         ))}
       </div>
-      <div>
-        <button onClick={() => setPage(page + 1)}>
-          {isShowLoadMore() ? 'Load More' : isLoading ? 'Loading more...' : ''}
-        </button>
-      </div>
+      <div id="infinite-scroll-sentinel" className='h-2'></div>
+
+      {isLoading && <p>Loading more...</p>}
     </div>
   );
 }
