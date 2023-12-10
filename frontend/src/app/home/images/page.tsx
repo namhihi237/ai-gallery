@@ -35,32 +35,30 @@ export default function Page() {
     }
   };
 
-    // Intersection Observer setup for infinite scroll
-    useEffect(() => {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          const target = entries[0];
-          if (target.isIntersecting) {
-            loadMore();
-          }
-        },
-        { threshold: 0.85 } // Trigger when x/full of the element is in the viewport
-      );
-
-      const sentinel = document.getElementById('infinite-scroll-sentinel');
-
-      if (sentinel) {
-        observer.observe(sentinel);
-      }
-
-      return () => {
-        if (sentinel) {
-          observer.unobserve(sentinel);
+  // Intersection Observer setup for infinite scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const target = entries[0];
+        if (target.isIntersecting) {
+          loadMore();
         }
-      };
-    }, [loadMore]);
+      },
+      { threshold: 0.85 }, // Trigger when x/full of the element is in the viewport
+    );
 
+    const sentinel = document.getElementById('infinite-scroll-sentinel');
 
+    if (sentinel) {
+      observer.observe(sentinel);
+    }
+
+    return () => {
+      if (sentinel) {
+        observer.unobserve(sentinel);
+      }
+    };
+  }, [loadMore]);
 
   return (
     <div>
@@ -71,9 +69,8 @@ export default function Page() {
           </div>
         ))}
       </div>
-      <div id="infinite-scroll-sentinel" className='h-2'></div>
-
-      {isLoading && <p>Loading more...</p>}
+      {isLoading && <span className="loading loading-spinner loading-xs"></span>}
+      <div id="infinite-scroll-sentinel" className="h-2"></div>
     </div>
   );
 }

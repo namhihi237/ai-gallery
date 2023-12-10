@@ -8,14 +8,10 @@ type SidebarProps = {
 
 export default function Sidebar(props: SidebarProps): JSX.Element {
   const items = props.sidebarsElement.map((element, index) => {
-      return {...element, isSelected: index === props.selectedIndex }
-  })
+    return { ...element, isSelected: index === props.selectedIndex };
+  });
   function renderMenuItem(): JSX.Element[] {
-    return items.map((element, index) => (
-      <SidebarItem
-        item={element}
-      />
-    ));
+    return items.map((element, index) => <SidebarItem key={index} item={element} />);
   }
 
   return (

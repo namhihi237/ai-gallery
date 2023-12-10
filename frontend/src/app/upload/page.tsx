@@ -7,6 +7,8 @@ import { useMutation } from '@tanstack/react-query';
 import { ROUTE } from '../../configs/route';
 import { useRouter } from 'next/navigation';
 import { ImageCreation, uploadImage } from '../../services/image';
+import { ToastEnum } from '../../components/Toast';
+import { useToast } from '../../hooks/useToast';
 
 const MAXIMUM_TAGS = 10;
 
@@ -17,6 +19,7 @@ export default function Page() {
   const [tagInput, setTagInput] = useState<string>('');
 
   const router = useRouter();
+  const toast = useToast();
 
   const mutationUploadFile = useMutation<void, Error, ImageCreation>({
     mutationFn: uploadImage,
@@ -51,7 +54,7 @@ export default function Page() {
 
   const handleSubmit = async () => {
     if (!title || !fileSelected) {
-      alert('Please fill all information!!!');
+      toast.addToast('Please fill all information!!!', ToastEnum.error);
       return;
     }
     mutationUploadFile.mutate({ file: fileSelected, title, tags });
@@ -127,7 +130,11 @@ export default function Page() {
                 className="px-8 py-2 mt-4 rounded-md bg-cyan-800 hover:bg-cyan-700"
                 disabled={mutationUploadFile.isPending}
               >
-                {mutationUploadFile.isPending ? 'Uploading' : 'Upload'}
+                {mutationUploadFile.isPending ? (
+                  <span className="loading loading-spinner loading-xs"></span>
+                ) : (
+                  'Upload'
+                )}
               </button>
             </div>
           </div>
