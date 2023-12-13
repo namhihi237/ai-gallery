@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useOutside } from '../../hooks/useOutSide';
 import { localStorageUtils } from '../../utils/localStorage';
 import { removeToken } from '../../utils/cookie';
