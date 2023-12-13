@@ -4,6 +4,7 @@ export type ImageItem = {
   url: string;
   _id?: string;
   type?: MediaType;
+  showDetail?: any;
 };
 
 enum MediaType {
@@ -12,9 +13,10 @@ enum MediaType {
 }
 
 export function ImageItemBase(props: ImageItem) {
-  const { type = MediaType.image } = props;
+  const { type = MediaType.image, showDetail = () => {} } = props;
+
   return (
-    <button className="mr-4">
+    <button className="mr-4" onClick={showDetail}>
       <img
         src={props.url}
         alt="img"
