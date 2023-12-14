@@ -3,6 +3,8 @@ import { useOutside } from '../../hooks/useOutSide';
 import { localStorageUtils } from '../../utils/localStorage';
 import { removeToken } from '../../utils/cookie';
 import { useUser } from '../../contexts/UserContext';
+import { v4 as uuidv4 } from 'uuid';
+
 type Props = {
   onClose: Function;
 };
@@ -27,9 +29,9 @@ export default function MenuDropdown(props: Props) {
 
   return (
     <div ref={dropdownRef} className="absolute top-full right-5 bg-white opacity-80 z-50">
-      {MENU_ITEMS.map((item, index) => (
+      {MENU_ITEMS.map((item) => (
         <button
-          key={index}
+          key={uuidv4()}
           className="bg-gray-500 hover:bg-gray-400 py-2 px-10"
           onClick={() => {
             item.action();

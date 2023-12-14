@@ -65,8 +65,8 @@ export default function Page() {
   return (
     <div>
       <div className="flex flex-wrap pt-2">
-        {images.map((image, index) => (
-          <div className="pb-2" key={index}>
+        {images.map((image) => (
+          <div className="pb-2" key={image._id}>
             <ImageItemBase url={image.url} showDetail={() => setImageSelected(image)} />
           </div>
         ))}
