@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { ImageCreation, uploadImage } from '../../services/image';
 import { ToastEnum } from '../../components/Toast';
 import { useToast } from '../../hooks/useToast';
+import { v4 as uuidv4 } from 'uuid';
 
 const MAXIMUM_TAGS = 10;
 
@@ -39,9 +40,8 @@ export default function Page() {
     noClick: true,
   });
 
-  const removeTag = (index: number) => {
-    const newTags = [...tags];
-    newTags.splice(index, 1);
+  const removeTag = (tagRemoved: string) => {
+    const newTags = tags.filter((tag) => tag !== tagRemoved);
     setTags(newTags);
   };
 
@@ -111,13 +111,13 @@ export default function Page() {
                     disabled={tags.length >= MAXIMUM_TAGS}
                   />
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {tags.map((tag, index) => (
+                    {tags.map((tag) => (
                       <div
-                        key={index}
+                        key={uuidv4()}
                         className="bg-slate-500 hover:bg-slate-400 focus:border rounded-sm py-1 px-2 flex justify-between"
                       >
                         <p className="mr-[2px]"> {tag}</p>
-                        <button onClick={() => removeTag(index)}>
+                        <button onClick={() => removeTag(tag)}>
                           <Icon iconName="CiCircleRemove" propsIcon={{ size: 18 }} />
                         </button>
                       </div>

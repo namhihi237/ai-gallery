@@ -1,5 +1,6 @@
 'use client';
 import SidebarItem, { MenuItem } from './SidebarItem';
+import { v4 as uuidv4 } from 'uuid';
 
 type SidebarProps = {
   selectedIndex: number;
@@ -11,7 +12,7 @@ export default function Sidebar(props: SidebarProps): JSX.Element {
     return { ...element, isSelected: index === props.selectedIndex };
   });
   function renderMenuItem(): JSX.Element[] {
-    return items.map((element, index) => <SidebarItem key={index} item={element} />);
+    return items.map((element) => <SidebarItem key={uuidv4()} item={element} />);
   }
 
   return (

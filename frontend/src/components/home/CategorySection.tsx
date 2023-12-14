@@ -22,8 +22,8 @@ export function CategorySection(props: CategorySectionProps) {
         </Link>
       </div>
       <div className="flex flex-wrap">
-        {imageElements.map((image, index) => (
-          <ImageItemBase key={index} url={image.url} />
+        {imageElements.map((image) => (
+          <ImageItemBase key={image._id} url={image.url} />
         ))}
       </div>
     </div>
