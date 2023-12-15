@@ -1,4 +1,5 @@
 import { MouseEvent } from 'react';
+import { Icon } from '../Icon';
 
 type Props = {
   onClose: Function;
@@ -11,6 +12,19 @@ export function ImageDetailModal(props: Props) {
       props.onClose();
     }
   };
+  const handleDownload = () => {
+    const link = document.createElement('a');
+
+    fetch(props.url)
+      .then((response) => response.blob())
+      .then((blob) => {
+        link.href = URL.createObjectURL(blob);
+        link.download = props.url.split('/').pop() || 'download.jpg';
+
+        link.click();
+      });
+  };
+
   return (
     <div>
       <div
@@ -19,8 +33,13 @@ export function ImageDetailModal(props: Props) {
       ></div>
 
       {/* Modal */}
-      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md shadow-md z-50">
-        <img src={props.url} alt="image" />
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-600 p-4 rounded-md shadow-md z-50">
+        <div className="w-full flex justify-end">
+          <button onClick={handleDownload}>
+            <Icon iconName="FaDownload" />
+          </button>
+        </div>
+        <img src={props.url} alt="image" className="mt-3" />
       </div>
     </div>
   );
