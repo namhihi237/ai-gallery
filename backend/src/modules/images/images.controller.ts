@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  Param,
   Post,
   Query,
   UploadedFile,
@@ -17,6 +18,7 @@ import { FileInterceptor } from '@nestjs/platform-express/multer';
 import { AuthGuard } from '../../guards/auth.guard';
 import { CurrentUser } from '../../common/decorators/currentUser.decorator';
 import { User } from '../user/user.schema';
+import { InteractionService } from '../interaction/interaction.service';
 
 const storage = diskStorage({
   destination: './uploads',
@@ -28,7 +30,10 @@ const storage = diskStorage({
 
 @Controller('api/images')
 export class ImagesController {
-  constructor(private imageService: ImagesService) {}
+  constructor(
+    private imageService: ImagesService,
+    private interactionService: InteractionService,
+  ) {}
   @Get()
   @HttpCode(200)
   async getImages(@Query() paging: PagingDto) {
@@ -52,5 +57,12 @@ export class ImagesController {
   @HttpCode(200)
   async getPreSignURL() {
     return this.imageService.generatePreSignUrl();
+  }
+
+  @UseGuards(AuthGuard)
+  @Post(':id/like')
+  @HttpCode(201)
+  async like(@CurrentUser() currentUser: User & { _id: string }, @Param() id: string) {
+    return this.interactionService.like(id, currentUser._id);
   }
 }

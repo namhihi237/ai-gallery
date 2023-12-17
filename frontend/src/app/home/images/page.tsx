@@ -67,14 +67,18 @@ export default function Page() {
       <div className="flex flex-wrap pt-2">
         {images.map((image) => (
           <div className="pb-2" key={image._id}>
-            <ImageItemBase url={image.url} showDetail={() => setImageSelected(image)} />
+            <ImageItemBase url={image.url} showDetail={() => setImageSelected(image)} _id="" />
           </div>
         ))}
       </div>
       {isLoading && <span className="loading loading-spinner loading-xs"></span>}
       <div id="infinite-scroll-sentinel" className="h-2"></div>
       {imageSelected && (
-        <ImageDetailModal onClose={() => setImageSelected(null)} url={imageSelected.url} />
+        <ImageDetailModal
+          onClose={() => setImageSelected(null)}
+          url={imageSelected.url}
+          id={imageSelected._id}
+        />
       )}
     </div>
   );

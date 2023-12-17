@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { InteractionService } from './interaction.service';
-import { InteractionController } from './interaction.controller';
 import { Like, LikeSchema } from './like.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthService } from '../auth/auth.service';
@@ -17,6 +16,5 @@ import { User, UserSchema } from '../user/user.schema';
     ]),
   ],
   providers: [InteractionService, AuthService, UserService, JwtService, GoogleService],
-  controllers: [InteractionController],
 })
 export class InteractionModule {}

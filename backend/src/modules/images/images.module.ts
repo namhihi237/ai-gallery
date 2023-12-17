@@ -12,12 +12,15 @@ import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { GoogleService } from '../../shared/services/google.service';
 import { User, UserSchema } from '../user/user.schema';
+import { InteractionService } from '../interaction/interaction.service';
+import { Like, LikeSchema } from '../interaction/like.schema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: Image.name, schema: ImageSchema },
       { name: User.name, schema: UserSchema },
+      { name: Like.name, schema: LikeSchema },
     ]),
     SharedModule,
     AuthModule,
@@ -30,6 +33,7 @@ import { User, UserSchema } from '../user/user.schema';
     UserService,
     JwtService,
     GoogleService,
+    InteractionService,
   ],
   controllers: [ImagesController],
 })

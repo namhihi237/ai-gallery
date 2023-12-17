@@ -10,6 +10,13 @@ export class InteractionService {
     private likeModel: Model<Like>,
   ) {}
   async like(imageID: string, userID: string) {
+    const liked = await this.likeModel.findOne({
+      imageID,
+      userID,
+    });
+
+    if (liked) return;
+
     return this.likeModel.create({
       imageID,
       userID,
