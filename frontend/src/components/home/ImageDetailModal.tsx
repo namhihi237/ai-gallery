@@ -37,7 +37,7 @@ export function ImageDetailModal(props: Props) {
         onClick={handleCloseModal}
         className="fixed top-0 left-0 w-screen h-screen bg-black opacity-50 z-50"
       ></div>
-      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-400 p-4 rounded-md shadow-md z-50 w-3/5">
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-400 p-4 rounded-md shadow-md z-50">
         <div className="flex w-full justify-between">
           <button onClick={handleDownload} className="tooltip mr-4" data-tip="download">
             <Icon iconName="FaDownload" />
