@@ -7,9 +7,10 @@ import { ImagesModule } from './modules/images/images.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
+import { InteractionModule } from './modules/interaction/interaction.module';
 
 @Module({
-  imports: [ConfigModule, DatabaseModule, ImagesModule, SharedModule, AuthModule, UserModule],
+  imports: [ConfigModule, DatabaseModule, ImagesModule, SharedModule, AuthModule, UserModule, InteractionModule],
   controllers: [AppController],
   providers: [AppService],
 })

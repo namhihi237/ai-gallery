@@ -15,11 +15,11 @@ export const uploadImage = async ({ file, title, tags }: ImageCreation) => {
     formData.append('tags[]', tag);
   });
 
-  const token = getToken()
+  const token = getToken();
   await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/images`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
   });
   return;
@@ -27,4 +27,18 @@ export const uploadImage = async ({ file, title, tags }: ImageCreation) => {
 
 export const getImages = async (page: number = 1, limit: number = 10) => {
   return axios.get(`${process.env.NEXT_PUBLIC_API_URL}/images?limit=${limit}&page=${page}`, {});
+};
+
+export const likeImage = async (imageID: string) => {
+  axios.post(
+    `${process.env.NEXT_PUBLIC_API_URL}/images/${imageID}/like`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    },
+  );
+
+  return;
 };
