@@ -5,6 +5,7 @@ export type ImageItem = {
   _id: string;
   type?: MediaType;
   showDetail?: any;
+  isLike?: boolean;
 };
 
 enum MediaType {

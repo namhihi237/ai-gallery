@@ -26,7 +26,11 @@ export const uploadImage = async ({ file, title, tags }: ImageCreation) => {
 };
 
 export const getImages = async (page: number = 1, limit: number = 10) => {
-  return axios.get(`${process.env.NEXT_PUBLIC_API_URL}/images?limit=${limit}&page=${page}`, {});
+  return axios.get(`${process.env.NEXT_PUBLIC_API_URL}/images?limit=${limit}&page=${page}`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
 };
 
 export const likeImage = async (imageID: string) => {

@@ -78,6 +78,7 @@ export default function Page() {
           onClose={() => setImageSelected(null)}
           url={imageSelected.url}
           id={imageSelected._id}
+          isLike={imageSelected.isLike}
         />
       )}
     </div>

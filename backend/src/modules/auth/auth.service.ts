@@ -41,23 +41,37 @@ export class AuthService {
     return true;
   }
 
-  private async validateToken(req: Request) {
-    const authorization = req.headers['authorization'] || req.headers['Authorization'];
+  async validateOptional(context: ExecutionContext): Promise<boolean> {
+    const req = context.switchToHttp().getRequest();
+    const user = await this.validateTokenOptional(req);
 
-    let userId = '';
-    let token = '';
-    if (authorization && authorization.startsWith('Bearer')) {
-      const split = authorization.split('Bearer ');
-      if (split.length !== 2) {
-        throw new UnauthorizedException();
+    req.user = user;
+    return true;
+  }
+
+  private async validateTokenOptional(req: Request) {
+    try {
+      const token = this.getToken(req);
+      let userId = '';
+
+      const checkJwt = await this.jwtService.verify(token, { secret: process.env.JWT_SECRET });
+      userId = checkJwt._id ? checkJwt._id : null;
+      if (userId) {
+        const user = await this.userService.findById(userId);
+        return user;
       }
-      token = split[1];
+    } catch (error) {
+      return null;
     }
+  }
+
+  private async validateToken(req: Request) {
+    let userId = '';
+    const token = this.getToken(req);
 
     try {
       const checkJwt = await this.jwtService.verify(token, { secret: process.env.JWT_SECRET });
       userId = checkJwt._id ? checkJwt._id : null;
-      console.log(userId);
     } catch (error) {
       throw new UnauthorizedException(error);
     }
@@ -70,5 +84,20 @@ export class AuthService {
       return user;
     }
     return null;
+  }
+
+  private getToken(req: Request) {
+    const authorization = req.headers['authorization'] || req.headers['Authorization'];
+
+    let token = '';
+    if (authorization && authorization.startsWith('Bearer')) {
+      const split = authorization.split('Bearer ');
+      if (split.length !== 2) {
+        throw new UnauthorizedException();
+      }
+      token = split[1];
+    }
+
+    return token;
   }
 }

@@ -19,6 +19,7 @@ import { AuthGuard } from '../../guards/auth.guard';
 import { CurrentUser } from '../../common/decorators/currentUser.decorator';
 import { User } from '../user/user.schema';
 import { InteractionService } from '../interaction/interaction.service';
+import { AuthGuardOptional } from '../../guards/auth-optional.guard';
 
 const storage = diskStorage({
   destination: './uploads',
@@ -34,10 +35,12 @@ export class ImagesController {
     private imageService: ImagesService,
     private interactionService: InteractionService,
   ) {}
+
   @Get()
+  @UseGuards(AuthGuardOptional)
   @HttpCode(200)
-  async getImages(@Query() paging: PagingDto) {
-    return this.imageService.findAll(paging);
+  async getImages(@CurrentUser() currentUser: User & { _id: string }, @Query() paging: PagingDto) {
+    return this.imageService.findAll(paging, currentUser._id);
   }
 
   @UseGuards(AuthGuard)
@@ -62,7 +65,7 @@ export class ImagesController {
   @UseGuards(AuthGuard)
   @Post(':id/like')
   @HttpCode(201)
-  async like(@CurrentUser() currentUser: User & { _id: string }, @Param() id: string) {
+  async like(@CurrentUser() currentUser: User & { _id: string }, @Param('id') id: string) {
     return this.interactionService.like(id, currentUser._id);
   }
 }
