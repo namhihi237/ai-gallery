@@ -2,6 +2,7 @@ import { MouseEvent } from 'react';
 import { Icon } from '../Icon';
 import { useMutation } from '@tanstack/react-query';
 import { likeImage } from '../../services/image';
+import { useUser } from '../../contexts/UserContext';
 
 type Props = {
   onClose: Function;
@@ -10,6 +11,8 @@ type Props = {
 };
 
 export function ImageDetailModal(props: Props) {
+  const { currentUser } = useUser();
+
   const handleCloseModal = (event: MouseEvent<HTMLDivElement | HTMLButtonElement>) => {
     if (
       event.target === event.currentTarget ||
@@ -53,18 +56,20 @@ export function ImageDetailModal(props: Props) {
           </button>
         </div>
         <img src={props.url} alt="image" className="mt-3" />
-        <div className="flex w-full justify-end mt-4">
-          <button
-            className="mr-4 tooltip"
-            data-tip="like"
-            onClick={() => mutationLike.mutate(props.id)}
-          >
-            <Icon iconName="FaHeart" />
-          </button>
-          <button className="tooltip" data-tip="save">
-            <Icon iconName="FaBookmark" />
-          </button>
-        </div>
+        {currentUser && (
+          <div className="flex w-full justify-end mt-4">
+            <button
+              className="mr-4 tooltip"
+              data-tip="like"
+              onClick={() => mutationLike.mutate(props.id)}
+            >
+              <Icon iconName="FaHeart" />
+            </button>
+            <button className="tooltip" data-tip="save">
+              <Icon iconName="FaBookmark" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
