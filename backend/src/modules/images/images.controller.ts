@@ -19,6 +19,7 @@ import { AuthGuard } from '../../guards/auth.guard';
 import { CurrentUser } from '../../common/decorators/currentUser.decorator';
 import { User } from '../user/user.schema';
 import { InteractionService } from '../interaction/interaction.service';
+import { AuthGuardOptional } from '../../guards/auth-optional.guard';
 
 const storage = diskStorage({
   destination: './uploads',
@@ -34,7 +35,9 @@ export class ImagesController {
     private imageService: ImagesService,
     private interactionService: InteractionService,
   ) {}
+
   @Get()
+  @UseGuards(AuthGuardOptional)
   @HttpCode(200)
   async getImages(@Query() paging: PagingDto) {
     return this.imageService.findAll(paging);
