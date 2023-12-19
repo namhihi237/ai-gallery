@@ -8,6 +8,7 @@ type Props = {
   onClose: Function;
   url: string;
   id: string;
+  isLike?: boolean;
 };
 
 export function ImageDetailModal(props: Props) {
@@ -63,7 +64,7 @@ export function ImageDetailModal(props: Props) {
               data-tip="like"
               onClick={() => mutationLike.mutate(props.id)}
             >
-              <Icon iconName="FaHeart" />
+              <Icon iconName="FaHeart" color={props.isLike ? 'red' : ''} />
             </button>
             <button className="tooltip" data-tip="save">
               <Icon iconName="FaBookmark" />
