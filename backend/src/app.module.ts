@@ -10,7 +10,15 @@ import { UserModule } from './modules/user/user.module';
 import { InteractionModule } from './modules/interaction/interaction.module';
 
 @Module({
-  imports: [ConfigModule, DatabaseModule, ImagesModule, SharedModule, AuthModule, UserModule, InteractionModule],
+  imports: [
+    ConfigModule,
+    DatabaseModule,
+    ImagesModule,
+    SharedModule,
+    AuthModule,
+    UserModule,
+    InteractionModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
