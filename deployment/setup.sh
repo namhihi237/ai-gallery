@@ -20,7 +20,7 @@ if [ ! -f .env ]; then
 fi
 echo "STEP: INSTALL NODE VERSION $NODE_VERSION."
 # Install Node.js using nvm
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 source ~/.nvm/nvm.sh
 nvm install "$NODE_VERSION"
 nvm use "$NODE_VERSION"
@@ -45,6 +45,9 @@ sudo apt-get update
 sudo apt-get install -y nginx
 sudo snap install core
 sudo snap refresh core
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+
 
 # Configure Nginx for your domain
 sudo tee /etc/nginx/sites-available/$APP_DOMAIN <<EOF
