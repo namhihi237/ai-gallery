@@ -42,7 +42,9 @@ pm2 start dist/main.js --name "$APP_NAME"
 echo "STEP: SETUP INSTALL NGINX AND CERTBOT"
 
 sudo apt-get update
-sudo apt-get install -y certbot nginx
+sudo apt-get install -y nginx
+sudo snap install core
+sudo snap refresh core
 
 # Configure Nginx for your domain
 sudo tee /etc/nginx/sites-available/$APP_DOMAIN <<EOF
