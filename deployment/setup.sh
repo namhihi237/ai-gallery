@@ -31,7 +31,8 @@ npm install pm2 -g
 # make sure created a .env file
 
 # build code and run start with pm2
-npm run build && \
+npm ci &&\
+npm run build &&\
 pm2 start dist/main.js --name "$APP_NAME"
 
 # Install Certbot and Nginx
@@ -39,24 +40,24 @@ sudo apt-get update
 sudo apt-get install -y certbot nginx
 
 # Configure Nginx for your domain
-sudo tee /etc/nginx/sites-available/"$APP_DOMAIN" <<EOF
+sudo tee /etc/nginx/sites-available/$APP_DOMAIN <<EOF
 server {
     listen 80;
     server_name $APP_DOMAIN;
 
     location / {
         proxy_pass http://localhost:$APP_PORT;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_cache_bypass \$http_upgrade;
+        proxy_set_header X-Forwarded-Proto \$scheme;
     }
 }
 EOF
 
 # Enable the Nginx site configuration
-sudo ln -s /etc/nginx/sites-available/"$APP_DOMAIN" /etc/nginx/sites-enabled
+sudo ln -s /etc/nginx/sites-available/$APP_DOMAIN /etc/nginx/sites-enabled
 
 # Test Nginx configuration
 sudo nginx -t
@@ -65,4 +66,4 @@ sudo nginx -t
 sudo systemctl reload nginx
 
 # Obtain SSL certificate using Certbot
-sudo certbot --nginx -d "$APP_DOMAIN" --non-interactive --email $EMAIL --agree-tos --redirect
+sudo certbot --nginx -d $APP_DOMAIN --non-interactive --email $EMAIL --agree-tos --redirect

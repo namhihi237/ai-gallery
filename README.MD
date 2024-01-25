@@ -90,3 +90,7 @@ Specify the license under which your project is distributed.
 ## Acknowledgments
 
 Give credit to any third-party libraries, services, or resources that you used in your project.
+
+
+## Auto deploy
+chmod +x ./setup.sh && ./setup.sh
