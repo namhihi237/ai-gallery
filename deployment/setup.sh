@@ -8,6 +8,8 @@ APP_NAME="api"
 APP_DOMAIN="poppy-dev.online"
 APP_PORT="3000"
 
+EMAIL=poppy99.dev@gmail.com
+
 # cd into the folder code
 cd ../backend
 
@@ -28,10 +30,8 @@ npm install pm2 -g
 
 # make sure created a .env file
 
-# build code
-npm run build
-
-# Start and run your Node.js server using pm2
+# build code and run start with pm2
+npm run build && \
 pm2 start dist/main.js --name "$APP_NAME"
 
 # Install Certbot and Nginx
@@ -42,10 +42,10 @@ sudo apt-get install -y certbot nginx
 sudo tee /etc/nginx/sites-available/"$APP_DOMAIN" <<EOF
 server {
     listen 80;
-    server_name "$APP_DOMAIN";
+    server_name $APP_DOMAIN;
 
     location / {
-        proxy_pass http://localhost:"$APP_PORT";
+        proxy_pass http://localhost:$APP_PORT;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -65,4 +65,4 @@ sudo nginx -t
 sudo systemctl reload nginx
 
 # Obtain SSL certificate using Certbot
-sudo certbot --nginx -d "$APP_DOMAIN"
+sudo certbot --nginx -d "$APP_DOMAIN" --non-interactive --email $EMAIL --agree-tos --redirect
