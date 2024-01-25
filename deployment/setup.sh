@@ -18,7 +18,7 @@ if [ ! -f .env ]; then
     echo "Error: The .env file is missing. Please create it before building."
     exit 1
 fi
-
+echo "STEP: INSTALL NODE VERSION $NODE_VERSION."
 # Install Node.js using nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 source ~/.nvm/nvm.sh
@@ -26,16 +26,21 @@ nvm install "$NODE_VERSION"
 nvm use "$NODE_VERSION"
 
 # Install pm2 globally
+echo "STEP: INSTALL PM2 GLOBALLY."
 npm install pm2 -g
 
 # make sure created a .env file
 
 # build code and run start with pm2
+echo "STEP: INSTALL NODE_MODULE AND START APP."
+
 npm ci &&\
 npm run build &&\
 pm2 start dist/main.js --name "$APP_NAME"
 
 # Install Certbot and Nginx
+echo "STEP: SETUP INSTALL NGINX AND CERTBOT"
+
 sudo apt-get update
 sudo apt-get install -y certbot nginx
 
@@ -65,5 +70,6 @@ sudo nginx -t
 # Reload Nginx to apply changes
 sudo systemctl reload nginx
 
+echo "STEP: SETUP HTTPS"
 # Obtain SSL certificate using Certbot
 sudo certbot --nginx -d $APP_DOMAIN --non-interactive --email $EMAIL --agree-tos --redirect
